@@ -1,0 +1,36 @@
+{
+    "name": "ngx-scroll-animations",
+    "version": "1.0.0",
+    "description": "An Angular directive that applies CSS animations to elements as they become visible through scrolling.",
+    "author": {
+        "name": "Alex Frei",
+        "email": "alex.frei@waio.ch",
+        "url": "https:waio.ch"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/hm21/ngx-scroll-animations.git"
+    },
+    "keywords": [
+        "angular",
+        "angular2",
+        "scroll",
+        "animations"
+    ],
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/hm21/ngx-scroll-animations/issues"
+    },
+    "homepage": "https://github.com/hm21/ngx-scroll-animations#readme",
+    "contributors": [],
+    "dependencies": {
+        "tslib": "^2.0.0"
+    },
+    "peerDependencies": {
+        "@angular/common": ">=17.0.0",
+        "@angular/core": ">=17.0.0"
+    },
+    "exports": {
+        "./styles": "./animations.scss"
+    }
+}

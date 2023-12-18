@@ -1,0 +1,28 @@
+@for (example of examples; let exampleIndex = $index; track exampleIndex) {
+<section>
+  <h1 [innerText]="example.title"></h1>
+
+  <div class="grid">
+    @for (item of items; let i = $index; track i) {
+    <img
+      [ngxScrollAnimate]="
+        example.animationType ? example.animationType[i] : 'fade-in-up'
+      "
+      [speed]="
+        example.differentSpeed ? example.speed! * (i + 1) : example.speed
+      "
+      [delay]="example.delay ?? 0"
+      [aos]="example.threshold"
+      [thresholdMode]="example.thresholdMode"
+      [easing]="example.easing ? example.easing[i] : 'ease'"
+      [disabled]="example.disabled"
+      [once]="example.once ?? true"
+      src="https://picsum.photos/id/{{
+        150 + (i + 1) * (exampleIndex + 1)
+      }}/300"
+      alt="demo-image"
+    />
+    }
+  </div>
+</section>
+}

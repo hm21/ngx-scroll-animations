@@ -1,0 +1,26 @@
+$min-size: 250px;
+
+h1 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin: 0;
+    padding: 0px;
+}
+
+.grid {
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(auto-fill, minmax($min-size, 1fr));
+    gap: 10px;
+    margin-bottom: 80px;
+}
+
+img {
+    width: 100%;
+    min-height: $min-size;
+    background-color: aqua;
+    height: auto;
+    box-sizing: border-box;
+    object-fit: cover;
+    border-radius: 4px;
+}
