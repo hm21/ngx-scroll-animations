@@ -16,7 +16,7 @@
 - [Documentation](#documentation)
 - [Example](#example)
 - [Contributing](#contributing)
-- [License](#license)
+- [License](LICENSE)
 
 <br/>
 
