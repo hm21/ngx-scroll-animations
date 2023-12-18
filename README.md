@@ -2,8 +2,7 @@
 
 <div>
 
-[![Build Status](https://github.com/hm21/ngx-scroll-animations/actions/workflows/ci.yml/badge.svg)](https://github.com/hm21/ngx-scroll-animations/actions/workflows/ci.yml)
-[![npm version](https://badge.fury.io/js/ngx-scroll-animations.svg)](http://badge.fury.io/js/ngx-scroll-animations)
+[![npm version](https://badge.fury.io/js/ngx-scroll-animations.svg)](https://badge.fury.io/js/ngx-scroll-animations)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Twitter Follow](https://img.shields.io/twitter/follow/hm21.svg)](https://twitter.com/Frei2100)
 
