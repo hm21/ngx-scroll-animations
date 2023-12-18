@@ -36,7 +36,7 @@ npm install ngx-scroll-animations
 #### Optionally include prebuilt animations
 ```css
 /* angular-cli file: src/styles.css */
-@import "node_modules/ngx-scroll-animations/css/ngx-scroll-animations.css";
+@import "node_modules/ngx-scroll-animations/styles/animations.min.css";
 ```
 
 <br/>
