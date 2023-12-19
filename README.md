@@ -1,4 +1,4 @@
-<h1>angular scroll animations</h1>
+<h1>ngx-scroll-animations</h1>
 
 <div>
 
