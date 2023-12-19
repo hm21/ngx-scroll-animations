@@ -1,11 +1,11 @@
 {
   "name": "ngx-scroll-animations",
-  "version": "1.0.4",
-  "description": "An Angular directive that applies CSS animations to elements as they become visible through scrolling.",
+  "version": "1.0.5",
+  "description": "This minimalistic Angular directive, free from external dependencies, empowers you to effortlessly implement CSS animations on elements. These animations trigger when an element comes into view through scrolling on the page. It seamlessly integrates with your choice of CSS animations.",
   "author": {
     "name": "Alex Frei",
     "email": "alex.frei@waio.ch",
-    "url": "https:waio.ch"
+    "url": "https://waio.ch"
   },
   "repository": {
     "type": "git",
@@ -26,7 +26,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "npm:publish": "cd dist/ngx-scroll-animations & npm publish",
+    "npm:publish": "npm run build & cd dist/ngx-scroll-animations & npm publish",
     "build": "ng build ngx-scroll-animations & npm run build:copyfiles & npm run build:styles",
     "build:copyfiles": "copyfiles CHANGELOG.md README.md LICENSE dist/ngx-scroll-animations",
     "build:styles": "sass --style compressed dist/ngx-scroll-animations/styles/animations.scss dist/ngx-scroll-animations/styles/animations.min.scss & sass dist/ngx-scroll-animations/styles/animations.scss dist/ngx-scroll-animations/styles/animations.css & sass --style compressed dist/ngx-scroll-animations/styles/animations.scss dist/ngx-scroll-animations/styles/animations.min.css",

@@ -143,6 +143,7 @@ export class NgxScrollAnimationsDirective implements OnInit {
      * Initializes the directive and sets up the animation triggers.
      */
     ngOnInit(): void {
+        this.elRef.nativeElement.classList.add('ngx-scroll-animations');
         this.zone.runOutsideAngular(() => {
             this.triggerIdle();
             if (isPlatformBrowser(this.platformId)) {

@@ -8,6 +8,10 @@
 
 </div>
 
+<h2 >Demo</h2>
+<div>
+https://ngx-hm21.web.app/scroll-animations
+</div>
 
 ## Table of contents
 
@@ -38,8 +42,6 @@ npm install ngx-scroll-animations
 /* angular-cli file: src/styles.css */
 @import "node_modules/ngx-scroll-animations/styles/animations.min.css";
 ```
-
-<br/>
 
 ### Using the directive
 
