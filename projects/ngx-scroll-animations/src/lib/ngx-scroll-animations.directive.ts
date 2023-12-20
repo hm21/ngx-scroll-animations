@@ -1,17 +1,18 @@
 import { isPlatformBrowser } from '@angular/common';
-import { DestroyRef, Directive, ElementRef, EventEmitter, Inject, Input, NgZone, OnInit, Output, PLATFORM_ID, Renderer2, booleanAttribute, inject, numberAttribute } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Subject, filter, fromEvent, takeWhile } from 'rxjs';
+import { Directive, ElementRef, EventEmitter, Inject, Input, NgZone, OnDestroy, OnInit, Output, PLATFORM_ID, Renderer2 } from '@angular/core';
+import { Subject, fromEvent } from 'rxjs';
+import { filter, takeUntil, takeWhile } from 'rxjs/operators';
 import { NgxScrollAnimationsService } from './ngx-scroll-animations.service';
+import { BooleanInput, coerceBooleanProperty } from './utils/coercion/coercion-boolean';
+import { NumberInput, coerceNumberProperty } from './utils/coercion/coercion-number';
 import { ThresholdModeT } from './utils/ngx-scroll-animations-types';
 
 
 
 @Directive({
     selector: '[ngxScrollAnimate]',
-    standalone: true,
 })
-export class NgxScrollAnimationsDirective implements OnInit {
+export class NgxScrollAnimationsDirective implements OnInit, OnDestroy {
     /**
      * Emits an event at the start of the animation.
      */
@@ -41,9 +42,9 @@ export class NgxScrollAnimationsDirective implements OnInit {
      * Delays the start of the animation. Accepts the delay time in milliseconds.
      * @param delayTime - The time in milliseconds to delay the start of the animation.
      */
-    @Input({ transform: numberAttribute })
-    set delay(delayTime: number) {
-        const value = delayTime;
+    @Input()
+    set delay(delayTime: NumberInput) {
+        const value = coerceNumberProperty(delayTime);
         if (value) {
             this._delay = `${value}ms`;
         } else {
@@ -54,11 +55,17 @@ export class NgxScrollAnimationsDirective implements OnInit {
     private _delay: string = '';
 
 
+    private _disabled: boolean = false;
     /**
      * A boolean value to enable or disable the animation.
      */
-    @Input({ transform: booleanAttribute })
-    disabled = false;
+    @Input()
+    set disabled(value: BooleanInput) {
+        this._disabled = coerceBooleanProperty(value);
+    }
+    get disabled(): boolean {
+        return this._disabled;
+    }
 
     /**
      * Defines how the animation accelerates and decelerates during its runtime.
@@ -86,19 +93,27 @@ export class NgxScrollAnimationsDirective implements OnInit {
     public get thresholdMode(): ThresholdModeT { return this._thresholdMode; }
     private _thresholdMode: ThresholdModeT = 'percent';
 
+
+    private _once: boolean = true;
     /**
-     * If true, triggers the animation only once when the element scrolls into the viewport.
-     */
-    @Input({ transform: booleanAttribute })
-    public once = true;
+    * If true, triggers the animation only once when the element scrolls into the viewport.
+    */
+    @Input()
+    set once(value: BooleanInput) {
+        this._once = coerceBooleanProperty(value);
+    }
+    get once(): boolean {
+        return this._once;
+    }
+
 
     /**
      * When set to true, replays the animation. Useful for re-triggering animations.
      */
-    @Input({ transform: booleanAttribute })
-    public set replay(replay: boolean) {
+    @Input()
+    public set replay(replay: BooleanInput) {
         // Re-triggers the animation again on request (skipping the very fist value)
-        if (replay) {
+        if (coerceBooleanProperty(replay)) {
             this.triggerIdle();
             this.replay$.next(true);
         }
@@ -128,14 +143,13 @@ export class NgxScrollAnimationsDirective implements OnInit {
     private count = 0;
     private lastViewState?: number;
 
-    // Dependency injections
-    private renderer = inject(Renderer2);
-    private zone = inject(NgZone);
-    private destroyRef = inject(DestroyRef);
-    private elRef = inject<ElementRef<HTMLElement>>(ElementRef);
-    private scrollService = inject(NgxScrollAnimationsService);
+    private destroy$ = new Subject();
 
     constructor(
+        private renderer: Renderer2,
+        private zone: NgZone,
+        private elRef: ElementRef<HTMLElement>,
+        private scrollService: NgxScrollAnimationsService,
         @Inject(PLATFORM_ID) private platformId: any,
     ) { }
 
@@ -153,20 +167,24 @@ export class NgxScrollAnimationsDirective implements OnInit {
         });
     }
 
+    ngOnDestroy(): void {
+        this.destroy$.next(true);
+        this.destroy$.complete();
+    }
 
     /**
      * Sets up listeners for animation start and end events.
      */
     private listenAnimationState(): void {
         fromEvent(this.elRef.nativeElement, 'animationstart').pipe(
-            takeUntilDestroyed(this.destroyRef),
+            takeUntil(this.destroy$),
         ).subscribe(() => {
             this.animating = true;
             this.startAnimation.emit();
         });
 
         fromEvent(this.elRef.nativeElement, 'animationend').pipe(
-            takeUntilDestroyed(this.destroyRef),
+            takeUntil(this.destroy$),
         ).subscribe(() => {
             this.animating = false;
             this.endAnimation.emit();
@@ -182,7 +200,7 @@ export class NgxScrollAnimationsDirective implements OnInit {
             this.scrollService.trigger(this.elRef, this.threshold, this.thresholdMode),
             filter((val) => (!this.animating || this.lastViewState === 0) && (this.lastViewState !== val || (this.once && this.lastViewState !== 1))),
             takeWhile(trigger => !trigger || !this.once, true),
-            takeUntilDestroyed(this.destroyRef),
+            takeUntil(this.destroy$),
         ).subscribe({
             next: (trigger) => {
                 this.lastViewState = trigger;

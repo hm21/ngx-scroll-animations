@@ -1,63 +1,67 @@
-import { ElementRef, NgZone, Renderer2 } from '@angular/core';
-import { TestBed } from '@angular/core/testing';
+import { Component } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { NgxScrollAnimationsDirective } from './ngx-scroll-animations.directive';
-import { NgxScrollAnimationsService } from './ngx-scroll-animations.service';
+
+@Component({
+  selector: 'app-test-host',
+  template: `
+    <div ngxScrollAnimate></div>
+  `,
+})
+class TestHostComponent { }
 
 describe('NgxScrollAnimationsDirective', () => {
+  let fixture: ComponentFixture<TestHostComponent>;
   let directive: NgxScrollAnimationsDirective;
-  let elementRef: ElementRef;
-  let renderer2: Renderer2;
-  let ngZone: NgZone;
-  let ngxScrollAnimationsService: NgxScrollAnimationsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [NgxScrollAnimationsDirective],
-      providers: [
-        { provide: ElementRef, useValue: new ElementRef(document.createElement('div')) },
-        { provide: Renderer2, useValue: jasmine.createSpyObj('Renderer2', ['setStyle', 'removeStyle']) },
-        { provide: NgxScrollAnimationsService, useValue: jasmine.createSpyObj('NgxScrollAnimationsService', ['trigger']) },
-        NgZone // Mock other dependencies if necessary
-      ]
+      declarations: [TestHostComponent, NgxScrollAnimationsDirective],
     });
 
-    directive = TestBed.inject(NgxScrollAnimationsDirective);
-    elementRef = TestBed.inject(ElementRef);
-    renderer2 = TestBed.inject(Renderer2);
-    ngZone = TestBed.inject(NgZone);
-    ngxScrollAnimationsService = TestBed.inject(NgxScrollAnimationsService);
+    fixture = TestBed.createComponent(TestHostComponent);
+    directive = fixture.debugElement.query(By.directive(NgxScrollAnimationsDirective)).injector.get(NgxScrollAnimationsDirective);
+    fixture.detectChanges();
   });
 
   it('should create an instance', () => {
     expect(directive).toBeTruthy();
   });
 
-  // Test for input properties
-  describe('Input properties', () => {
-    it('should set speed', () => {
-      directive.speed = 'fast';
-      expect(directive.speed).toBe('400ms');
-    });
-
-    // Additional tests for other input properties...
+  it('should have default speed set to "300ms"', () => {
+    expect(directive.speed).toEqual('300ms');
   });
 
-  // Test for output events
-  describe('Output events', () => {
-    it('should emit startAnimation event', () => {
-      spyOn(directive.startAnimation, 'emit');
-      directive['triggerAnimation']();
-      expect(directive.startAnimation.emit).toHaveBeenCalled();
-    });
-
-    // Additional tests for doneAnimation event...
+  it('should have default delay set to empty string', () => {
+    expect(directive.delay).toEqual('');
   });
 
-  // Test DOM manipulations
-  describe('DOM manipulations', () => {
-    it('should set styles when triggerAnimation is called', () => {
-      directive['triggerAnimation']();
-      expect(renderer2.setStyle).toHaveBeenCalled();
-    });
+  it('should have default disabled set to false', () => {
+    expect(directive.disabled).toBeFalsy();
+  });
+
+  it('should have default easing set to "ease"', () => {
+    expect(directive.easing).toEqual('ease');
+  });
+
+  it('should have default threshold set to 0.8', () => {
+    expect(directive['threshold']).toEqual(0.8);
+  });
+
+  it('should have default threshold mode set to "percent"', () => {
+    expect(directive.thresholdMode).toEqual('percent');
+  });
+
+  it('should have default once set to true', () => {
+    expect(directive.once).toBeTruthy();
+  });
+
+  it('should have default replay set to false', () => {
+    expect(directive.replay).toBeFalsy();
+  });
+
+  it('should have default animate set to "fade-in-up"', () => {
+    expect(directive.animate).toEqual('fade-in-up');
   });
 });

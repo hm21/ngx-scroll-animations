@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { NgxScrollAnimationsDirective, ThresholdModeT } from 'ngx-scroll-animations';
+import { NgxScrollAnimationsModule, ThresholdModeT } from 'ngx-scroll-animations';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
-  imports: [NgxScrollAnimationsDirective],
+  imports: [NgxScrollAnimationsModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {

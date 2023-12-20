@@ -1,6 +1,16 @@
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { ElementRef, Inject, Injectable, NgZone, PLATFORM_ID } from '@angular/core';
-import { Observable, OperatorFunction, debounceTime, first, fromEvent, map, of, share, shareReplay, startWith, switchMap, throttleTime } from 'rxjs';
+import { Observable, OperatorFunction, fromEvent, of } from 'rxjs';
+import {
+  debounceTime,
+  first,
+  map,
+  share,
+  shareReplay,
+  startWith,
+  switchMap,
+  throttleTime,
+} from 'rxjs/operators';
 import { ThresholdModeT } from './utils/ngx-scroll-animations-types';
 
 @Injectable({
@@ -84,7 +94,8 @@ export class NgxScrollAnimationsService {
       map(view => {
         const rect = elm.nativeElement.getBoundingClientRect();
         const triggerPos = thresholdMode === 'percent' ? rect.height * threshold : threshold;
-        return rect.top - view.height + triggerPos <= 0 && rect.bottom >= 0 ? 1 : 0;
+        // && rect.bottom >= 0
+        return rect.top - view.height + triggerPos <= 0 ? 1 : 0;
       })
     );
   }

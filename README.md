@@ -1,4 +1,4 @@
-<h1>ngx-scroll-animations</h1>
+<h1>angular 9+ scroll-animations</h1>
 
 <div>
 
@@ -48,14 +48,14 @@ npm install ngx-scroll-animations
 #### Standalone component
 ```typescript
 import { Component } from '@angular/core';
-import { NgxScrollAnimationsDirective } from 'ngx-scroll-animations';
+import { NgxScrollAnimationsModule } from 'ngx-scroll-animations';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
-  imports: [ NgxScrollAnimationsDirective ],
+  imports: [ NgxScrollAnimationsModule ],
 })
 export class AppComponent {}
 ```
@@ -66,7 +66,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 
-import { NgxScrollAnimationsDirective } from 'ngx-scroll-animations';
+import { NgxScrollAnimationsModule } from 'ngx-scroll-animations';
 
 @NgModule({
   declarations: [
@@ -74,7 +74,7 @@ import { NgxScrollAnimationsDirective } from 'ngx-scroll-animations';
   ],
   imports: [
     BrowserModule,
-    NgxScrollAnimationsDirective,
+    NgxScrollAnimationsModule,
   ],
   bootstrap: [AppComponent]
 })
