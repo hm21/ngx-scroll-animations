@@ -8,10 +8,9 @@
 [![Web Demo](https://img.shields.io/badge/web-demo---?&color=0f7dff)](https://ngx-hm21.web.app/scroll-animations)
 </div>
 
+<img src="https://github.com/hm21/ngx-scroll-animations/blob/master/assets/showcase.gif?raw=true" width=450 />
 <a href="https://ngx-hm21.web.app/scroll-animations">
-    <img src="https://github.com/hm21/ngx-scroll-animations/blob/master/assets/showcase.gif?raw=true" width=450 />
-      <br/>
-      Demo Website
+    Demo Website
 </a>
 
 ## Table of contents
