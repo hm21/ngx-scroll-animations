@@ -4,13 +4,15 @@
 
 [![npm version](https://badge.fury.io/js/ngx-scroll-animations.svg)](https://badge.fury.io/js/ngx-scroll-animations)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-
+[![Issues](https://img.shields.io/github/issues/hm21/ngx-scroll-animations)](https://github.com/hm21/ngx-scroll-animations/issues)
+[![Web Demo](https://img.shields.io/badge/web-demo---?&color=0f7dff)](https://ngx-hm21.web.app/scroll-animations)
 </div>
 
-<h2 >Demo</h2>
-<div>
-https://ngx-hm21.web.app/scroll-animations
-</div>
+<a href="https://ngx-hm21.web.app/scroll-animations">
+    <img src="https://github.com/hm21/pro_image_editor/blob/stable/assets/showcase.gif?raw=true" width=450 />
+      <br/>
+      Demo Website
+</a>
 
 ## Table of contents
 
@@ -41,8 +43,6 @@ npm install ngx-scroll-animations
 /* angular-cli file: src/styles.css */
 @import "node_modules/ngx-scroll-animations/styles/animations.min.css";
 ```
-
-### Using the directive
 
 #### Standalone component
 ```typescript
