@@ -9,7 +9,7 @@
 </div>
 
 <a href="https://ngx-hm21.web.app/scroll-animations">
-    <img src="https://github.com/hm21/pro_image_editor/blob/stable/assets/showcase.gif?raw=true" width=450 />
+    <img src="https://github.com/hm21/ngx-scroll-animations/blob/master/assets/showcase.gif?raw=true" width=450 />
       <br/>
       Demo Website
 </a>
