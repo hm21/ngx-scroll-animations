@@ -3,6 +3,8 @@
 <div>
 
 [![npm version](https://badge.fury.io/js/ngx-scroll-animations.svg)](https://badge.fury.io/js/ngx-scroll-animations)
+[![NPM monthly downloads](https://img.shields.io/npm/dm/ngx-scroll-animations.svg)](https://badge.fury.io/js/ngx-scroll-animations)
+[![NPM total downloads](https://img.shields.io/npm/dt/ngx-scroll-animations.svg)](https://badge.fury.io/js/ngx-scroll-animations)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Issues](https://img.shields.io/github/issues/hm21/ngx-scroll-animations)](https://github.com/hm21/ngx-scroll-animations/issues)
 [![Web Demo](https://img.shields.io/badge/web-demo---?&color=0f7dff)](https://ngx-hm21.web.app/scroll-animations)
