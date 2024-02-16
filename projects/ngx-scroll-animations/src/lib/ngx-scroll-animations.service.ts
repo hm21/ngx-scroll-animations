@@ -43,6 +43,19 @@ export class NgxScrollAnimationsService {
   }
 
   /**
+   * Overrides the default scroll listener for the specified HTML element.
+   *
+   * @param {HTMLElement} element - The HTML element for which to override the scroll listener.
+   * @returns {void}
+   */
+  public overrideScrollListener(element: HTMLElement): void {
+    this.scroll$ = fromEvent(element, 'scroll').pipe(
+      throttleTime(50, undefined, { leading: true, trailing: true }),
+      share(),
+    );
+  }
+
+  /**
    * Retrieves the current viewport rectangle.
    * @returns The DOMRect representing the current viewport dimensions.
    */

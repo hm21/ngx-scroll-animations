@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+<a name="1.1.0"></a>
+
+## [1.1.0] - 2024.02.16
+
+### Added
+
+- Enhance the functionality by implementing a feature that allows users to override the scroll listener to a different HTML element.
+
 <a name="1.0.6"></a>
 
 ## [1.0.6] - 2023-12-20
@@ -20,11 +28,12 @@ All notable changes to this project will be documented in this file.
 
 <a name="1.0.0"></a>
 
-# 1.0.0 (2023-12-18)
+## [1.0.0] (2023-12-18)
 
 _Initial release_
 
 ---
 
+[1.1.0]: https://github.com/your/project/releases/tag/1.1.0
 [1.0.6]: https://github.com/your/project/releases/tag/1.0.6
 [1.0.0]: https://github.com/your/project/releases/tag/1.0.0
