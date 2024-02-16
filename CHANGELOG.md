@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+<a name="1.1.1"></a>
+
+## [1.1.1] - 2024.02.16
+
+### Fix
+
+- Export scroll-service that user can override the scroll-listener
+
 <a name="1.1.0"></a>
 
 ## [1.1.0] - 2024.02.16
@@ -34,6 +42,7 @@ _Initial release_
 
 ---
 
+[1.1.1]: https://github.com/your/project/releases/tag/1.1.1
 [1.1.0]: https://github.com/your/project/releases/tag/1.1.0
 [1.0.6]: https://github.com/your/project/releases/tag/1.0.6
 [1.0.0]: https://github.com/your/project/releases/tag/1.0.0
