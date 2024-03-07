@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+<a name="1.1.2"></a>
+
+## [1.1.2] - 2024.03.07
+
+### Fix
+
+- Resize screen was not triggered
+
 <a name="1.1.1"></a>
 
 ## [1.1.1] - 2024.02.16

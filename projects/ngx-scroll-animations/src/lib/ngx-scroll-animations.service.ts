@@ -9,7 +9,7 @@ import {
   shareReplay,
   startWith,
   switchMap,
-  throttleTime,
+  throttleTime
 } from 'rxjs/operators';
 import { ThresholdModeT } from './utils/ngx-scroll-animations-types';
 
@@ -27,7 +27,7 @@ export class NgxScrollAnimationsService {
   ) {
     if (isPlatformBrowser(this.platformId)) {
       // Observable for viewport changes, using window resize events as a trigger
-      this.view$ = fromEvent(this.document, 'resize').pipe(
+      this.view$ = fromEvent(window, 'resize').pipe(
         debounceTime(100),
         startWith(this.getCurrentViewport()),
         map(() => this.getCurrentViewport()),
