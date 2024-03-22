@@ -20,8 +20,8 @@ describe('NgxScrollAnimationsService', () => {
       providers: [
         NgxScrollAnimationsService,
         { provide: DOCUMENT, useValue: mockDocument },
-        { provide: NgZone, useValue: mockNgZone }
-      ]
+        { provide: NgZone, useValue: mockNgZone },
+      ],
     });
 
     service = TestBed.inject(NgxScrollAnimationsService);
@@ -45,7 +45,12 @@ describe('NgxScrollAnimationsService', () => {
     it('should return an OperatorFunction', () => {
       const threshold = 50;
       const thresholdMode: ThresholdModeT = 'percent';
-      const operatorFunction = service.trigger(mockElementRef, threshold, thresholdMode);
+      const operatorFunction = service.trigger(
+        mockElementRef,
+        threshold,
+        thresholdMode,
+        20
+      );
 
       expect(typeof operatorFunction).toBe('function');
     });

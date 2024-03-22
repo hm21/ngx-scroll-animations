@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+<a name="1.1.3"></a>
+
+## [1.1.3] - 2024.03.22
+
+### Feat
+
+- Add a gap for multiple scroll animations so that they are not triggered twice at the same moment.
+
 <a name="1.1.2"></a>
 
 ## [1.1.2] - 2024.03.07
@@ -50,6 +58,8 @@ _Initial release_
 
 ---
 
+[1.1.3]: https://github.com/your/project/releases/tag/1.1.3
+[1.1.2]: https://github.com/your/project/releases/tag/1.1.2
 [1.1.1]: https://github.com/your/project/releases/tag/1.1.1
 [1.1.0]: https://github.com/your/project/releases/tag/1.1.0
 [1.0.6]: https://github.com/your/project/releases/tag/1.0.6

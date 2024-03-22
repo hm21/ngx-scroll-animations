@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { NgxScrollAnimationsModule, ThresholdModeT } from 'ngx-scroll-animations';
 
+
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -10,7 +11,6 @@ import { NgxScrollAnimationsModule, ThresholdModeT } from 'ngx-scroll-animations
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
-
   public examples: ItemI[] = [
     {
       title: 'Disable animations',
@@ -54,6 +54,7 @@ export class AppComponent {
       title: 'Multiple animate',
       speed: 500,
       threshold: 0.7,
+      undoGap: 50,
       once: false,
     },
     {
@@ -74,7 +75,6 @@ export class AppComponent {
   public items = new Array(5);
 }
 
-
 interface ItemI {
   title: string;
   differentSpeed?: boolean;
@@ -84,6 +84,7 @@ interface ItemI {
   threshold?: number;
   speed?: number;
   delay?: number;
+  undoGap?: number;
   easing?: string[];
   animationType?: string[];
 }

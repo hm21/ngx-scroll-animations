@@ -1,5 +1,11 @@
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
-import { ElementRef, Inject, Injectable, NgZone, PLATFORM_ID } from '@angular/core';
+import {
+  ElementRef,
+  Inject,
+  Injectable,
+  NgZone,
+  PLATFORM_ID,
+} from '@angular/core';
 import { Observable, OperatorFunction, fromEvent, of } from 'rxjs';
 import {
   debounceTime,
@@ -9,12 +15,12 @@ import {
   shareReplay,
   startWith,
   switchMap,
-  throttleTime
+  throttleTime,
 } from 'rxjs/operators';
 import { ThresholdModeT } from './utils/ngx-scroll-animations-types';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class NgxScrollAnimationsService {
   private view$!: Observable<DOMRect>;
@@ -23,7 +29,7 @@ export class NgxScrollAnimationsService {
   constructor(
     private zone: NgZone,
     @Inject(DOCUMENT) private document: Document,
-    @Inject(PLATFORM_ID) private platformId: any,
+    @Inject(PLATFORM_ID) private platformId: any
   ) {
     if (isPlatformBrowser(this.platformId)) {
       // Observable for viewport changes, using window resize events as a trigger
@@ -37,7 +43,7 @@ export class NgxScrollAnimationsService {
       // Observable for scroll events on the window
       this.scroll$ = fromEvent(this.document, 'scroll').pipe(
         throttleTime(50, undefined, { leading: true, trailing: true }),
-        share(),
+        share()
       );
     }
   }
@@ -51,7 +57,7 @@ export class NgxScrollAnimationsService {
   public overrideScrollListener(element: HTMLElement): void {
     this.scroll$ = fromEvent(element, 'scroll').pipe(
       throttleTime(50, undefined, { leading: true, trailing: true }),
-      share(),
+      share()
     );
   }
 
@@ -70,14 +76,22 @@ export class NgxScrollAnimationsService {
    * @param thresholdMode - The mode ('percent' or 'pixel') for calculating the threshold.
    * @returns An OperatorFunction that can be used to animate the element.
    */
-  public trigger(elm: ElementRef<HTMLElement>, threshold: number, thresholdMode: ThresholdModeT): OperatorFunction<boolean, 0 | 1 | undefined> {
-    return source => this.zone.onStable.pipe(
-      first(),
-      // switchMap(() => source),
-      switchMap((trigger) => threshold > 0 ?
-        this.animateOnScroll(elm, threshold, thresholdMode) :
-        of(trigger)),
-    );
+  public trigger(
+    elm: ElementRef<HTMLElement>,
+    threshold: number,
+    thresholdMode: ThresholdModeT,
+    undoGap: number
+  ): OperatorFunction<boolean, 0 | 1 | undefined> {
+    return (source) =>
+      this.zone.onStable.pipe(
+        first(),
+        // switchMap(() => source),
+        switchMap((trigger) =>
+          threshold > 0
+            ? this.animateOnScroll(elm, threshold, thresholdMode, undoGap)
+            : of(trigger)
+        )
+      );
   }
 
   /**
@@ -85,13 +99,20 @@ export class NgxScrollAnimationsService {
    * @param elm - The ElementRef of the HTML element to animate.
    * @param threshold - The threshold value to trigger the animation.
    * @param thresholdMode - The mode ('percent' or 'pixel') for calculating the threshold.
+   * @param undoGap - The gap between the animation start point and animation leave point.
    * @returns An Observable<boolean> indicating whether the animation should be triggered.
    */
-  private animateOnScroll(elm: ElementRef<HTMLElement>, threshold: number, thresholdMode: ThresholdModeT): Observable<0 | 1 | undefined> {
+  private animateOnScroll(
+    elm: ElementRef<HTMLElement>,
+    threshold: number,
+    thresholdMode: ThresholdModeT,
+    undoGap: number
+  ): Observable<0 | 1 | undefined> {
     return this.scroll$!.pipe(
       startWith(0),
-      switchMap(() => this.checkVisibility(elm, threshold, thresholdMode)),
-      //  distinctUntilChanged(),
+      switchMap(() =>
+        this.checkVisibility(elm, threshold, thresholdMode, undoGap)
+      )
     );
   }
 
@@ -100,15 +121,22 @@ export class NgxScrollAnimationsService {
    * @param elm - The ElementRef of the HTML element to check.
    * @param threshold - The threshold value for visibility.
    * @param thresholdMode - The mode ('percent' or 'pixel') for calculating the threshold.
+   * @param undoGap - The gap between the animation start point and animation leave point.
    * @returns An Observable emitting the visibility state (0, 1, or undefined).
    */
-  private checkVisibility(elm: ElementRef<HTMLElement>, threshold: number, thresholdMode: ThresholdModeT): Observable<0 | 1 | undefined> {
+  private checkVisibility(
+    elm: ElementRef<HTMLElement>,
+    threshold: number,
+    thresholdMode: ThresholdModeT,
+    undoGap: number
+  ): Observable<0 | 1 | undefined> {
     return this.view$!.pipe(
-      map(view => {
+      map((view) => {
         const rect = elm.nativeElement.getBoundingClientRect();
-        const triggerPos = thresholdMode === 'percent' ? rect.height * threshold : threshold;
-        // && rect.bottom >= 0
-        return rect.top - view.height + triggerPos <= 0 ? 1 : 0;
+        const triggerPos =
+          thresholdMode === 'percent' ? rect.height * threshold : threshold;
+        const currentPos = rect.top - view.height + triggerPos;
+        return currentPos <= 0 ? 1 : currentPos > undoGap ? 0 : undefined;
       })
     );
   }
