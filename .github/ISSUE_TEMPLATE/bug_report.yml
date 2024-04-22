@@ -1,0 +1,63 @@
+name: Bug report
+description: Report a bug to help us improve
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: input
+    id: editor-version
+    attributes:
+      label: Package Version
+      description: Version of the package
+      placeholder: ex. 1.0.2
+    validations:
+      required: true
+  - type: input
+    id: flutter-version
+    attributes:
+      label: Angular Version
+      description: Version from Angular
+      placeholder: ex. 16.0.2
+    validations:
+      required: true
+  - type: dropdown
+    id: platforms
+    attributes:
+      label: Browsers
+      description: Check all that apply
+      multiple: true
+      options:
+        - Chrome
+        - Opera
+        - Safari
+        - Firefox
+        - Microsoft Edge
+        - Brave
+        - Vivaldi
+        - Samsung Internet Browser
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: "How to reproduce?"
+      description: "How to reproduce the issue?"
+      placeholder: "ex. I found a bug when I press the button X."
+    validations:
+      required: true
+  - type: textarea
+    id: log
+    attributes:
+      label: Logs (optional)
+      description: "Error log"
+      render: sh
+    validations:
+      required: false
+  - type: textarea
+    id: example-code
+    attributes:
+      label: "Example code (optional)"
+      description: "If you can, please provide a example code to reproduce the problem."
+      placeholder: "ex. this.elRef.click()"
+      render: Typescript
+    validations:
+      required: false
