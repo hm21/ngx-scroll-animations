@@ -9,6 +9,7 @@ import {
 import { Observable, OperatorFunction, fromEvent, of } from 'rxjs';
 import {
   debounceTime,
+  delay,
   first,
   map,
   share,
@@ -85,7 +86,7 @@ export class NgxScrollAnimationsService {
     return (source) =>
       this.stableEvent.pipe(
         first(),
-        // switchMap(() => source),
+        delay(1), /// Delay is important in zoneless applications
         switchMap((trigger) =>
           threshold > 0
             ? this.animateOnScroll(elm, threshold, thresholdMode, undoGap)
