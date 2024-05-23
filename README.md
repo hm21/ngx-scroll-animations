@@ -87,16 +87,17 @@ export class AppModule { }
 
 ### Inputs
 
-| Option            | Type            | Default           | Comment                                                  |
-|:------------------|:----------------|:------------------|:--------------------------------------------------------|
-| ngxScrollAnimate  | string           | fade-in-up       | Name of the animation (as example 'fade-in')          |
-| easing            | string           | ease             | Defines how the animation accelerates and decelerates during its runtime. |
-| speed             | number           | 300              | The speed at which the animation runs in milliseconds.                 |
-| delay             | number           | 0                | Delays the start of the animation. Accepts the delay time in milliseconds. |
-| aos               | number           | 0.8 (when thresholdMode is set to 'pixel', the value is 20) | The threshold for triggering the animation when an element scrolls into the viewport. |
-| thresholdMode     | 'percent' / 'pixel' | percent         | Defines the mode for calculating the threshold: 'percent' or 'pixel'. |
-| once              | boolean          | true             | If true, triggers the animation only once when the element scrolls into the viewport. |
-| disabled          | boolean          | false            | A boolean value to enable or disable the animation.    |
+| Option            | Type             | Default                                                     | Comment                                                                                |
+|:------------------|:-----------------|:------------------------------------------------------------|:---------------------------------------------------------------------------------------|
+| ngxScrollAnimate  | string           | fade-in-up                                                  | Name of the animation (as example 'fade-in')                                           |
+| zoneless          | boolean          | true                                                        | Set this property to false if your application runs with ng zone.                      |
+| easing            | string           | ease                                                        | Defines how the animation accelerates and decelerates during its runtime.              |
+| speed             | number           | 300                                                         | The speed at which the animation runs in milliseconds.                                 |
+| delay             | number           | 0                                                           | Delays the start of the animation. Accepts the delay time in milliseconds.             |
+| aos               | number           | 0.8 (when thresholdMode is set to 'pixel', the value is 20) | The threshold for triggering the animation when an element scrolls into the viewport.  |
+| thresholdMode     | 'percent' / 'pixel' | percent                                                  | Defines the mode for calculating the threshold: 'percent' or 'pixel'.                  |
+| once              | boolean          | true                                                        | If true, triggers the animation only once when the element scrolls into the viewport.  |
+| disabled          | boolean          | false                                                       | A boolean value to enable or disable the animation.                                    |
 
 
 ### Outputs

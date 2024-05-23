@@ -1,9 +1,9 @@
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import {
   ElementRef,
+  EventEmitter,
   Inject,
   Injectable,
-  NgZone,
   PLATFORM_ID,
 } from '@angular/core';
 import { Observable, OperatorFunction, fromEvent, of } from 'rxjs';
@@ -25,9 +25,9 @@ import { ThresholdModeT } from './utils/ngx-scroll-animations-types';
 export class NgxScrollAnimationsService {
   private view$!: Observable<DOMRect>;
   private scroll$!: Observable<Event>;
+  public stableEvent = new EventEmitter<any>();
 
   constructor(
-    private zone: NgZone,
     @Inject(DOCUMENT) private document: Document,
     @Inject(PLATFORM_ID) private platformId: any
   ) {
@@ -83,7 +83,7 @@ export class NgxScrollAnimationsService {
     undoGap: number
   ): OperatorFunction<boolean, 0 | 1 | undefined> {
     return (source) =>
-      this.zone.onStable.pipe(
+      this.stableEvent.pipe(
         first(),
         // switchMap(() => source),
         switchMap((trigger) =>

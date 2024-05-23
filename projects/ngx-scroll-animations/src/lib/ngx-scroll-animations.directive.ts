@@ -1,34 +1,37 @@
 import { isPlatformBrowser } from '@angular/common';
 import {
-    Directive,
-    ElementRef,
-    EventEmitter,
-    Inject,
-    Input,
-    NgZone,
-    OnDestroy,
-    OnInit,
-    Output,
-    PLATFORM_ID,
-    Renderer2,
+  AfterViewInit,
+  Directive,
+  ElementRef,
+  EventEmitter,
+  Inject,
+  Input,
+  NgZone,
+  OnDestroy,
+  OnInit,
+  Output,
+  PLATFORM_ID,
+  Renderer2,
 } from '@angular/core';
 import { Subject, fromEvent } from 'rxjs';
 import { filter, takeUntil, takeWhile } from 'rxjs/operators';
 import { NgxScrollAnimationsService } from './ngx-scroll-animations.service';
 import {
-    BooleanInput,
-    coerceBooleanProperty,
+  BooleanInput,
+  coerceBooleanProperty,
 } from './utils/coercion/coercion-boolean';
 import {
-    NumberInput,
-    coerceNumberProperty,
+  NumberInput,
+  coerceNumberProperty,
 } from './utils/coercion/coercion-number';
 import { ThresholdModeT } from './utils/ngx-scroll-animations-types';
 
 @Directive({
   selector: '[ngxScrollAnimate]',
 })
-export class NgxScrollAnimationsDirective implements OnInit, OnDestroy {
+export class NgxScrollAnimationsDirective
+  implements OnInit, AfterViewInit, OnDestroy
+{
   /**
    * Emits an event at the start of the animation.
    */
@@ -130,6 +133,18 @@ export class NgxScrollAnimationsDirective implements OnInit, OnDestroy {
     return this._once;
   }
 
+  private _zoneless: boolean = true;
+  /**
+   * Set this property to false if your application runs with ng zone.
+   */
+  @Input()
+  set zoneless(value: BooleanInput) {
+    this._zoneless = coerceBooleanProperty(value);
+  }
+  get zoneless(): boolean {
+    return this._zoneless;
+  }
+
   private _undoGap: number = 20;
   /**
    * The gap between the animation start point and animation leave point.
@@ -195,6 +210,8 @@ export class NgxScrollAnimationsDirective implements OnInit, OnDestroy {
    * Initializes the directive and sets up the animation triggers.
    */
   ngOnInit(): void {
+    if (!this.zoneless) this.scrollService.stableEvent = this.zone.onStable;
+
     this.elRef.nativeElement.classList.add('ngx-scroll-animations');
     this.zone.runOutsideAngular(() => {
       this.triggerIdle();
@@ -203,6 +220,10 @@ export class NgxScrollAnimationsDirective implements OnInit, OnDestroy {
         this.setupAnimationTrigger();
       }
     });
+  }
+
+  ngAfterViewInit(): void {
+    if (this.zoneless) this.scrollService.stableEvent.next(true);
   }
 
   ngOnDestroy(): void {
