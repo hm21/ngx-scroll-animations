@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## `1.2.2` - 2024.06.20
+### Fix
+- Resolved issue where scrolling did not retrigger when a child element started an animation.
+- Resolved issue where scrolling was triggered multiple times and at wrong positions when the user used a scale animation.
 
 ## `1.2.1` - 2024.03.22
 ### Fix

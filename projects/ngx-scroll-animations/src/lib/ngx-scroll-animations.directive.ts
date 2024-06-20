@@ -13,8 +13,20 @@ import {
   PLATFORM_ID,
   Renderer2,
 } from '@angular/core';
-import { Subject, fromEvent } from 'rxjs';
-import { filter, takeUntil, takeWhile } from 'rxjs/operators';
+import { Observable, Subject, fromEvent, of } from 'rxjs';
+import {
+  debounceTime,
+  delay,
+  distinctUntilChanged,
+  filter,
+  first,
+  map,
+  startWith,
+  switchMap,
+  takeUntil,
+  takeWhile,
+  tap,
+} from 'rxjs/operators';
 import { NgxScrollAnimationsService } from './ngx-scroll-animations.service';
 import {
   BooleanInput,
@@ -105,8 +117,8 @@ export class NgxScrollAnimationsDirective
     this.threshold = value
       ? +value
       : this.thresholdMode === 'percent'
-      ? 0.8
-      : 20;
+        ? 0.8
+        : 20;
   }
 
   /**
@@ -188,7 +200,7 @@ export class NgxScrollAnimationsDirective
   private replay$ = new Subject<boolean>();
 
   /** Flag to indicate if the animation is currently running */
-  public animating = false;
+  public activeAnimations = 0;
 
   /** Threshold of the animation */
   private threshold = 0.8;
@@ -196,6 +208,8 @@ export class NgxScrollAnimationsDirective
   private count = 0;
   private lastViewState?: number;
 
+  private onStable = new EventEmitter<any>();
+  private temporaryBoundings!: DOMRect;
   private destroy$ = new Subject();
 
   constructor(
@@ -203,15 +217,16 @@ export class NgxScrollAnimationsDirective
     private zone: NgZone,
     private elRef: ElementRef<HTMLElement>,
     private scrollService: NgxScrollAnimationsService,
-    @Inject(PLATFORM_ID) private platformId: any
+    @Inject(PLATFORM_ID) private platformId: any,
   ) {}
 
   /**
    * Initializes the directive and sets up the animation triggers.
    */
   ngOnInit(): void {
-    if (!this.zoneless) this.scrollService.stableEvent = this.zone.onStable;
+    if (!this.zoneless) this.onStable = this.zone.onStable;
 
+    this.setTemporaryBoundings();
     this.elRef.nativeElement.classList.add('ngx-scroll-animations');
     this.zone.runOutsideAngular(() => {
       this.triggerIdle();
@@ -223,7 +238,8 @@ export class NgxScrollAnimationsDirective
   }
 
   ngAfterViewInit(): void {
-    if (this.zoneless) this.scrollService.stableEvent.next(true);
+    if (this.zoneless) this.onStable.next(true);
+    this.setTemporaryBoundings();
   }
 
   ngOnDestroy(): void {
@@ -231,23 +247,40 @@ export class NgxScrollAnimationsDirective
     this.destroy$.complete();
   }
 
+  private setTemporaryBoundings() {
+    if (isPlatformBrowser(this.platformId)) {
+      this.temporaryBoundings =
+        this.elRef.nativeElement.getBoundingClientRect();
+    }
+  }
+
   /**
    * Sets up listeners for animation start and end events.
    */
   private listenAnimationState(): void {
     fromEvent(this.elRef.nativeElement, 'animationstart')
-      .pipe(takeUntil(this.destroy$))
+      .pipe(
+        takeUntil(this.destroy$),
+        // Make sure the animation is not triggered by a child element.
+        filter((event) => event.target === this.elRef.nativeElement),
+      )
       .subscribe(() => {
-        this.animating = true;
         this.startAnimation.emit();
       });
 
     fromEvent(this.elRef.nativeElement, 'animationend')
-      .pipe(takeUntil(this.destroy$))
+      .pipe(
+        takeUntil(this.destroy$),
+        // Make sure the animation is not triggered by a child element.
+        filter((event) => event.target === this.elRef.nativeElement),
+        tap(() => {
+          this.endAnimation.emit();
+          this.clearAnimation(this.once || this.lastViewState === 1);
+        }),
+        debounceTime(10),
+      )
       .subscribe(() => {
-        this.animating = false;
-        this.endAnimation.emit();
-        this.clearAnimation(this.once || this.lastViewState === 1);
+        this.activeAnimations--;
       });
   }
 
@@ -257,30 +290,48 @@ export class NgxScrollAnimationsDirective
   private setupAnimationTrigger(): void {
     this.replay$
       .pipe(
-        this.scrollService.trigger(
-          this.elRef,
-          this.threshold,
-          this.thresholdMode,
-          this.undoGap
-        ),
+        () =>
+          this.onStable.pipe(
+            first(),
+            delay(1), // Delay is important in zoneless applications
+            switchMap((trigger) =>
+              this.threshold > 0
+                ? this.scrollService.scroll$!.pipe(
+                    startWith(0),
+                    switchMap(() =>
+                      this.checkVisibility(
+                        this.elRef.nativeElement,
+                        this.threshold,
+                        this.thresholdMode,
+                        this.undoGap,
+                      ),
+                    ),
+                  )
+                : of(trigger),
+            ),
+          ),
+        distinctUntilChanged(),
         filter(
           (val) =>
             val !== undefined &&
-            (!this.animating || this.lastViewState === 0) &&
+            (this.activeAnimations === 0 || this.lastViewState === 0) &&
             (this.lastViewState !== val ||
-              (this.once && this.lastViewState !== 1))
+              (this.once && this.lastViewState !== 1)),
         ),
         takeWhile((trigger) => !trigger || !this.once, true),
-        takeUntil(this.destroy$)
+        takeUntil(this.destroy$),
       )
       .subscribe({
         next: (trigger) => {
           this.lastViewState = trigger;
-          trigger
-            ? this.triggerAnimation('normal')
-            : !this.once && this.count > 0
-            ? this.triggerAnimation('reverse')
-            : this.triggerIdle();
+
+          if (trigger) {
+            this.triggerAnimation('normal');
+          } else if (!this.once && this.count > 0) {
+            this.triggerAnimation('reverse');
+          } else {
+            this.triggerIdle();
+          }
         },
         error: (err) => {
           console.error(err);
@@ -297,6 +348,7 @@ export class NgxScrollAnimationsDirective
    */
   private triggerAnimation(direction: 'normal' | 'reverse') {
     if (!this.disabled) {
+      this.activeAnimations++;
       this.count++;
       this.clearAnimation(true);
       this.triggerIdle();
@@ -305,7 +357,7 @@ export class NgxScrollAnimationsDirective
         'animation',
         `${this.animate} ${this.speed} ${this.delay ? this.delay + ' ' : ''}${
           this.easing
-        } ${direction}`
+        } ${direction}`,
       );
     }
   }
@@ -331,5 +383,38 @@ export class NgxScrollAnimationsDirective
     if (clearAll) {
       this.renderer.removeStyle(this.elRef.nativeElement, 'opacity');
     }
+  }
+
+  /**
+   * Calculates the visibility of the element within the viewport, based on the given threshold.
+   * @param element - The ElementRef of the HTML element to check.
+   * @param threshold - The threshold value for visibility.
+   * @param thresholdMode - The mode ('percent' or 'pixel') for calculating the threshold.
+   * @param undoGap - The gap between the animation start point and animation leave point.
+   * @returns An Observable emitting the visibility state (0, 1, or undefined).
+   */
+  private checkVisibility(
+    element: HTMLElement,
+    threshold: number,
+    thresholdMode: ThresholdModeT,
+    undoGap: number,
+  ): Observable<0 | 1 | undefined> {
+    return this.scrollService.view$!.pipe(
+      map((view) => {
+        let rect!: DOMRect;
+        if (this.activeAnimations > 0) {
+          rect = this.temporaryBoundings;
+        } else {
+          rect = element.getBoundingClientRect();
+          this.temporaryBoundings = rect;
+        }
+
+        const triggerPos =
+          thresholdMode === 'percent' ? rect.height * threshold : threshold;
+
+        const currentPos = rect.top - view.height + triggerPos;
+        return currentPos <= 0 ? 1 : currentPos > undoGap ? 0 : undefined;
+      }),
+    );
   }
 }
