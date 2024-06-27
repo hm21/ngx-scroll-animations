@@ -1,4 +1,4 @@
-<h1>angular 9+ scroll-animations</h1>
+<h1>Angular Scroll Animations</h1>
 
 <div>
 
@@ -26,12 +26,13 @@
 
 <br/>
 
-<h2>About</h2>
+## About
 
 This minimalistic Angular directive, free from external dependencies, empowers you to effortlessly implement CSS animations on elements. These animations trigger when an element comes into view through scrolling on the page. It seamlessly integrates with your choice of CSS animations.
 
 <br/>
-<h2>Getting started</h2>
+
+## Getting started
 
 ### Installation
 
@@ -45,40 +46,39 @@ npm install ngx-scroll-animations
 @import "node_modules/ngx-scroll-animations/styles/animations.min.css";
 ```
 
-#### Standalone component
+### Import the directive
 ```typescript
 import { Component } from '@angular/core';
-import { NgxScrollAnimationsModule } from 'ngx-scroll-animations';
+import { NgxScrollAnimationsDirective } from 'ngx-scroll-animations';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
-  imports: [ NgxScrollAnimationsModule ],
+  imports: [ NgxScrollAnimationsDirective ],
 })
 export class AppComponent {}
 ```
 
-#### Or for Module
+### Optional Global Configs
+Add `provideNgxScrollAnimations` to your `app.config.ts` file as shown below.
+
 ```typescript
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { AppComponent } from './app.component';
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideRouter(routes),
+    provideClientHydration(),
 
-import { NgxScrollAnimationsModule } from 'ngx-scroll-animations';
-
-@NgModule({
-  declarations: [
-    AppComponent
+    /// Add the code below
+    provideNgxScrollAnimations({
+      speed: 300,
+      animationName: 'fade-in',
+      once: false,
+      /// Other configs...
+    }),
   ],
-  imports: [
-    BrowserModule,
-    NgxScrollAnimationsModule,
-  ],
-  bootstrap: [AppComponent]
-})
-export class AppModule { }
+};
 ```
 
 <br/>

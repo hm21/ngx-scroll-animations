@@ -2,7 +2,6 @@ import { DOCUMENT } from '@angular/common';
 import { ElementRef, NgZone } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { NgxScrollAnimationsService } from './ngx-scroll-animations.service';
-import { ThresholdModeT } from './utils/ngx-scroll-animations-types';
 
 describe('NgxScrollAnimationsService', () => {
   let service: NgxScrollAnimationsService;
@@ -37,22 +36,6 @@ describe('NgxScrollAnimationsService', () => {
       const viewport = service.getCurrentViewport();
       expect(viewport.width).toBe(window.innerWidth);
       expect(viewport.height).toBe(window.innerHeight);
-    });
-  });
-
-  // Test for trigger method
-  describe('trigger', () => {
-    it('should return an OperatorFunction', () => {
-      const threshold = 50;
-      const thresholdMode: ThresholdModeT = 'percent';
-      const operatorFunction = service.trigger(
-        mockElementRef,
-        threshold,
-        thresholdMode,
-        20
-      );
-
-      expect(typeof operatorFunction).toBe('function');
     });
   });
 });

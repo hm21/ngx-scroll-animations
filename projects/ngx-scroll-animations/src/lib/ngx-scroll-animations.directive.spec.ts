@@ -62,6 +62,6 @@ describe('NgxScrollAnimationsDirective', () => {
   });
 
   it('should have default animate set to "fade-in-up"', () => {
-    expect(directive.animate).toEqual('fade-in-up');
+    expect(directive.animationName).toEqual('fade-in-up');
   });
 });
