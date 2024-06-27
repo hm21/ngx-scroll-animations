@@ -1,14 +1,10 @@
 import {
-  InjectionToken,
   ModuleWithProviders,
-  NgModule,
-  Provider,
+  NgModule
 } from '@angular/core';
 import { NgxScrollAnimationsDirective } from './ngx-scroll-animations.directive';
+import { provideNgxScrollAnimations } from './ngx-scroll-animations.provider';
 import { NgxScrollAnimationConfigs } from './utils/ngx-scroll-animation-configs';
-
-export const NGX_SCROLL_ANIMATION_CONFIGS =
-  new InjectionToken<NgxScrollAnimationConfigs>('NgxScrollAnimationConfigs');
 
 @NgModule({
   imports: [NgxScrollAnimationsDirective],
@@ -23,15 +19,4 @@ export class NgxScrollAnimationsModule {
       providers: [provideNgxScrollAnimations(configs)],
     };
   }
-}
-
-export function provideNgxScrollAnimations(
-  configs?: NgxScrollAnimationConfigs
-): Provider {
-  return [
-    {
-      provide: NGX_SCROLL_ANIMATION_CONFIGS,
-      useValue: configs,
-    },
-  ];
 }

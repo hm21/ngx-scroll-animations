@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## `2.0.1` - 2024.06.27
+### Fix
+- Ensure unit tests work with standalone solution
 
 ## `2.0.0` - 2024.06.27
 ### Feat

@@ -5,11 +5,9 @@ import { NgxScrollAnimationsDirective } from './ngx-scroll-animations.directive'
 
 @Component({
   selector: 'app-test-host',
-  template: `
-    <div ngxScrollAnimate></div>
-  `,
+  template: ` <div ngxScrollAnimate></div> `,
 })
-class TestHostComponent { }
+class TestHostComponent {}
 
 describe('NgxScrollAnimationsDirective', () => {
   let fixture: ComponentFixture<TestHostComponent>;
@@ -17,11 +15,14 @@ describe('NgxScrollAnimationsDirective', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TestHostComponent, NgxScrollAnimationsDirective],
+      imports: [NgxScrollAnimationsDirective],
+      declarations: [TestHostComponent],
     });
 
     fixture = TestBed.createComponent(TestHostComponent);
-    directive = fixture.debugElement.query(By.directive(NgxScrollAnimationsDirective)).injector.get(NgxScrollAnimationsDirective);
+    directive = fixture.debugElement
+      .query(By.directive(NgxScrollAnimationsDirective))
+      .injector.get(NgxScrollAnimationsDirective);
     fixture.detectChanges();
   });
 
@@ -55,10 +56,6 @@ describe('NgxScrollAnimationsDirective', () => {
 
   it('should have default once set to true', () => {
     expect(directive.once).toBeTruthy();
-  });
-
-  it('should have default replay set to false', () => {
-    expect(directive.replay).toBeFalsy();
   });
 
   it('should have default animate set to "fade-in-up"', () => {

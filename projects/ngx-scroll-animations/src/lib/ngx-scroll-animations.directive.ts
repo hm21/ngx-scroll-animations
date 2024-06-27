@@ -30,7 +30,7 @@ import {
   tap,
   timer,
 } from 'rxjs';
-import { NGX_SCROLL_ANIMATION_CONFIGS } from './ngx-scroll-animations.module';
+import { NGX_SCROLL_ANIMATION_CONFIGS } from './ngx-scroll-animations.provider';
 import { NgxScrollAnimationsService } from './ngx-scroll-animations.service';
 import {
   BooleanInput,
