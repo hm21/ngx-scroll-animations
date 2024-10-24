@@ -61,7 +61,6 @@ import { NgxScrollAnimationsDirective } from 'ngx-scroll-animations';
 export class AppComponent {}
 ```
 
-### Optional Global Configs
 Add `provideNgxScrollAnimations` to your `app.config.ts` file as shown below.
 
 ```typescript
@@ -73,7 +72,7 @@ export const appConfig: ApplicationConfig = {
     /// Add the code below
     provideNgxScrollAnimations({
       speed: 300,
-      animationName: 'fade-in',
+      animationName: 'fade-in-up',
       once: false,
       /// Other configs...
     }),
@@ -103,8 +102,8 @@ export const appConfig: ApplicationConfig = {
 ### Outputs
 | Option          | Type               | Comment                                       |
 |:----------------|:-------------------|:----------------------------------------------|
-| startAnimation  | EventEmitter<void> | Emits an event at the start of the animation. |
-| endAnimation    | EventEmitter<void> | Emits an event at the end of the animation.   |
+| startAnimation  | output             | Emits an event at the start of the animation. |
+| endAnimation    | output             | Emits an event at the end of the animation.   |
 
 ### Prebuild animations
 - `'fade-in'`

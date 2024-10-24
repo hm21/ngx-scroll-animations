@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## `3.0.1` - 2024.10.24
+### DOC
+- Update the README file to reflect the latest changes.
+
 ## `3.0.0` - 2024.10.24
 ### Breaking Changes
 - **Angular Version**: Minimum supported version is now Angular 18.

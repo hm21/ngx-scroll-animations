@@ -1,6 +1,6 @@
 {
     "name": "ngx-scroll-animations",
-    "version": "3.0.0",
+    "version": "3.0.1",
     "description": "This minimalistic Angular directive, free from external dependencies, empowers you to effortlessly implement CSS animations on elements. These animations trigger when an element comes into view through scrolling on the page. It seamlessly integrates with your choice of CSS animations.",
     "author": {
         "name": "Alex Frei",
