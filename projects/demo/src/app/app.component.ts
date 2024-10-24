@@ -1,8 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import {
-  NgxScrollAnimationsDirective,
-  ThresholdModeT,
-} from 'ngx-scroll-animations';
+import { NgxScrollAnimationsDirective, ThresholdModeT } from 'ngx-scroll-animations';
 
 @Component({
   selector: 'app-root',
@@ -17,15 +14,18 @@ export class AppComponent {
     {
       title: 'Disable animations',
       disabled: true,
+      thresholdMode: 'percent',
     },
     {
       title: 'Delay 1000ms',
       delay: 1_000,
+      thresholdMode: 'percent',
       speed: 500,
     },
     {
       title: 'Easing options',
       speed: 1_000,
+      thresholdMode: 'percent',
       threshold: 0.8,
       easing: [
         'ease',
@@ -55,6 +55,7 @@ export class AppComponent {
     {
       title: 'Multiple animate',
       speed: 500,
+      thresholdMode: 'percent',
       threshold: 0.7,
       undoGap: 50,
       once: false,
@@ -62,6 +63,7 @@ export class AppComponent {
     {
       title: 'Custom animations',
       speed: 1_200,
+      thresholdMode: 'percent',
       threshold: 1,
       once: false,
       animationType: [
@@ -82,7 +84,7 @@ interface ItemI {
   differentSpeed?: boolean;
   disabled?: boolean;
   once?: boolean;
-  thresholdMode?: ThresholdModeT;
+  thresholdMode: ThresholdModeT;
   threshold?: number;
   speed?: number;
   delay?: number;

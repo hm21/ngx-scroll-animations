@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## `3.0.0` - 2024.10.24
+### Breaking Changes
+- **Angular Version**: Minimum supported version is now Angular 18.
+- **Removed**: `zone.js` has been completely removed.
+
+### Other Updates
+- General code optimizations and improvements for better performance.
+
 ## `2.0.1` - 2024.06.27
 ### Fix
 - Ensure unit tests work with standalone solution

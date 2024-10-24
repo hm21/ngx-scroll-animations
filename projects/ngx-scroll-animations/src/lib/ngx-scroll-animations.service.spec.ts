@@ -1,5 +1,8 @@
 import { DOCUMENT } from '@angular/common';
-import { ElementRef, NgZone } from '@angular/core';
+import {
+  ElementRef,
+  provideExperimentalZonelessChangeDetection
+} from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { NgxScrollAnimationsService } from './ngx-scroll-animations.service';
 
@@ -7,19 +10,17 @@ describe('NgxScrollAnimationsService', () => {
   let service: NgxScrollAnimationsService;
   let mockDocument: Document;
   let mockElementRef: ElementRef;
-  let mockNgZone: NgZone;
 
   beforeEach(() => {
     // Mocks for dependencies
     mockDocument = document;
     mockElementRef = new ElementRef(document.createElement('div'));
-    mockNgZone = new NgZone({ enableLongStackTrace: false });
 
     TestBed.configureTestingModule({
       providers: [
+        provideExperimentalZonelessChangeDetection(),
         NgxScrollAnimationsService,
         { provide: DOCUMENT, useValue: mockDocument },
-        { provide: NgZone, useValue: mockNgZone },
       ],
     });
 
