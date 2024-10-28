@@ -131,7 +131,9 @@ export class NgxScrollAnimationsDirective
    *
    * @default true
    */
-  public once = input(this.configs?.once ?? true);
+  public once = input(this.configs?.once ?? true, {
+    transform: booleanAttribute,
+  });
 
   /**
    * The gap between the animation start point and the animation end point.
