@@ -2,10 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
-## `3.1.0` - 2025.01.30
-### Feat
-- Run code outside NgZone for non-zoneless apps
-- Ensure correct rerun of multiple running animations
+## `3.1.1` - 2025.01.30
+### Fix
+- Resolve trigger issue with scaling animations.
 
 ## `3.0.2` - 2024.10.28
 

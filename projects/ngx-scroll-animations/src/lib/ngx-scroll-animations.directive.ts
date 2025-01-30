@@ -343,15 +343,13 @@ export class NgxScrollAnimationsDirective
           map((view) => {
             const realRect = this.elRef.nativeElement.getBoundingClientRect();
 
-            const elementHeight =
-              this.activeAnimations > 0
-                ? this.temporaryBounding.height
-                : realRect.height;
+            let elementHeight = realRect.height;
 
-            this.elRef.nativeElement.setAttribute(
-              'fake-height',
-              elementHeight.toString()
-            );
+            if (this.activeAnimations > 0) {
+              elementHeight = this.temporaryBounding.height;
+            } else {
+              this.temporaryBounding = realRect;
+            }
 
             const triggerPos =
               this.thresholdMode() === 'percent'
