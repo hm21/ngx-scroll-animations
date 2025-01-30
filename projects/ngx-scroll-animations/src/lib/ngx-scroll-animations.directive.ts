@@ -7,6 +7,7 @@ import {
   ElementRef,
   inject,
   input,
+  NgZone,
   numberAttribute,
   OnDestroy,
   OnInit,
@@ -43,6 +44,7 @@ import { ThresholdModeT } from './utils/ngx-scroll-animations-types';
 export class NgxScrollAnimationsDirective
   implements OnInit, AfterViewInit, OnDestroy
 {
+  private ngZone = inject(NgZone);
   private isBrowser = inject(IS_BROWSER);
   private destroyRef = inject(DestroyRef);
   private scrollService = inject(NgxScrollAnimationsService);
@@ -193,11 +195,13 @@ export class NgxScrollAnimationsDirective
   }
 
   private initListeners() {
-    this.triggerIdle();
-    if (this.isBrowser) {
-      this.listenAnimationState();
-      this.setupAnimationTrigger();
-    }
+    this.ngZone.runOutsideAngular(() => {
+      this.triggerIdle();
+      if (this.isBrowser) {
+        this.listenAnimationState();
+        this.setupAnimationTrigger();
+      }
+    });
   }
 
   private setTemporaryBounding() {
@@ -233,6 +237,7 @@ export class NgxScrollAnimationsDirective
       )
       .subscribe(() => {
         this.activeAnimations--;
+        this.setTemporaryBounding();
       });
   }
 
@@ -336,20 +341,24 @@ export class NgxScrollAnimationsDirective
       switchMap(() =>
         this.scrollService.view$!.pipe(
           map((view) => {
-            let rect!: DOMRect;
-            if (this.activeAnimations > 0) {
-              rect = this.temporaryBounding;
-            } else {
-              rect = this.elRef.nativeElement.getBoundingClientRect();
-              this.temporaryBounding = rect;
-            }
+            const realRect = this.elRef.nativeElement.getBoundingClientRect();
+
+            const elementHeight =
+              this.activeAnimations > 0
+                ? this.temporaryBounding.height
+                : realRect.height;
+
+            this.elRef.nativeElement.setAttribute(
+              'fake-height',
+              elementHeight.toString()
+            );
 
             const triggerPos =
               this.thresholdMode() === 'percent'
-                ? rect.height * this.threshold()
+                ? elementHeight * this.threshold()
                 : this.threshold();
 
-            const currentPos = rect.top - view.height + triggerPos;
+            const currentPos = realRect.top - view.height + triggerPos;
             if (currentPos <= 0) {
               return 'visible';
             } else if (currentPos > this.undoGap()) {

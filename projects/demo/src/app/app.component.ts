@@ -69,7 +69,7 @@ export class AppComponent {
       animationType: [
         'fade-in-right',
         'fade-in',
-        'slide-in-up',
+        'fade-in-up-scale',
         'fade-in-up-scale',
         'fade-in-left',
       ],

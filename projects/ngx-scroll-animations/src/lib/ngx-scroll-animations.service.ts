@@ -64,7 +64,7 @@ export class NgxScrollAnimationsService {
       startWith(this.getCurrentViewport()),
       map(this.getCurrentViewport),
       // Share the last screen size
-      shareReplay(1)
+      shareReplay()
     );
   }
 
