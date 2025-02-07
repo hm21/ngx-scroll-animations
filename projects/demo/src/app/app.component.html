@@ -8,16 +8,16 @@
       [ngxScrollAnimate]="
         example.animationType ? example.animationType[i] : 'fade-in-up'
       "
-      [speed]="
-        example.differentSpeed ? example.speed! * (i + 1) : example.speed
+      [duration]="
+        example.differentDuration ? example.duration! * (i + 1) : example.duration
       "
       [delay]="example.delay ?? ''"
       [aos]="example.threshold"
       [thresholdMode]="example.thresholdMode"
-      [easing]="example.easing ? example.easing[i] : 'ease'"
+      [timingFunction]="example.timingFunction ? example.timingFunction[i] : 'ease'"
       [disabled]="example.disabled"
       [once]="example.once ?? true"
-      [undoGap]="example.undoGap"
+      [triggerBuffer]="example.triggerBuffer"
       src="https://picsum.photos/id/{{
         150 + (i + 1) * (exampleIndex + 1)
       }}/300"
@@ -27,3 +27,51 @@
   </div>
 </section>
 }
+
+<!-- <section
+  style="
+    height: 300vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  "
+>
+  <div
+    style="
+      position: relative;
+      background-color: red;
+      padding: 1px;
+      width: 300px;
+      height: 300px;
+    "
+  >
+    <img
+      ngxScrollAnimate="fade-in-up"
+      aos="150"
+      triggerBuffer="50"
+      thresholdMode="pixel"
+      once="false"
+      src="https://picsum.photos/id/135/300"
+      alt="demo-image"
+    />
+    <div
+      style="
+        height: 2px;
+        width: 100%;
+        background-color: orange;
+        position: absolute;
+        top: 149px;
+      "
+    ></div>
+    <div
+      style="
+        height: 2px;
+        width: 100%;
+        background-color: blueviolet;
+        position: absolute;
+        top: 99px;
+      "
+    ></div>
+  </div>
+</section>
+ -->

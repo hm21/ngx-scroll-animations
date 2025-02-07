@@ -2,15 +2,33 @@
 
 All notable changes to this project will be documented in this file.
 
-## `3.1.1` - 2025.01.30
+## `3.2.0` - 2025.02.07
+
+### Feat
+
+- Added new parameter `reverseDuration` for controlling the reverse animation duration.
+
 ### Fix
+
+- Fixed an issue where the animation trigger misbehaved when sliding in while scrolling up/down.
+
+### Chore
+
+- Marked `speed` as deprecated and replaced it with `duration`.
+- Marked `easing` as deprecated and replaced it with `timingFunction`.
+- Marked `undoGap` as deprecated and replaced it with `triggerBuffer`.
+
+## `3.1.1` - 2025.01.30
+
+### Fix
+
 - Resolve trigger issue with scaling animations.
 
 ## `3.0.2` - 2024.10.28
 
 ### Feat
 
-- Add `booleanAttribute` to the `once` input 
+- Add `booleanAttribute` to the `once` input
 
 ## `3.0.1` - 2024.10.24
 

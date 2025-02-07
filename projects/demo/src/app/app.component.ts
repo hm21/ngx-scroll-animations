@@ -20,14 +20,14 @@ export class AppComponent {
       title: 'Delay 1000ms',
       delay: 1_000,
       thresholdMode: 'percent',
-      speed: 500,
+      duration: 500,
     },
     {
       title: 'Easing options',
-      speed: 1_000,
+      duration: 1_000,
       thresholdMode: 'percent',
       threshold: 0.8,
-      easing: [
+      timingFunction: [
         'ease',
         'ease-out',
         'ease-in',
@@ -47,22 +47,22 @@ export class AppComponent {
     },
     {
       title: 'Different speed',
-      differentSpeed: true,
-      speed: 500,
+      differentDuration: true,
+      duration: 500,
       threshold: 0.7,
       thresholdMode: 'percent',
     },
     {
       title: 'Multiple animate',
-      speed: 500,
+      duration: 500,
       thresholdMode: 'percent',
       threshold: 0.7,
-      undoGap: 50,
+      triggerBuffer: 50,
       once: false,
     },
     {
       title: 'Custom animations',
-      speed: 1_200,
+      duration: 1_200,
       thresholdMode: 'percent',
       threshold: 1,
       once: false,
@@ -81,14 +81,14 @@ export class AppComponent {
 
 interface ItemI {
   title: string;
-  differentSpeed?: boolean;
+  differentDuration?: boolean;
   disabled?: boolean;
   once?: boolean;
   thresholdMode: ThresholdModeT;
   threshold?: number;
-  speed?: number;
+  duration?: number;
   delay?: number;
-  undoGap?: number;
-  easing?: string[];
+  triggerBuffer?: number;
+  timingFunction?: string[];
   animationType?: string[];
 }
